@@ -36,7 +36,7 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
-  pdftitle={Report Lucene},
+  pdftitle={Code Metrics for the full system in R},
   pdfauthor={Aarón Blanco Álvarez},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
@@ -103,7 +103,7 @@
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
 
-\title{Report Lucene}
+\title{Code Metrics for the full system in R}
 \author{Aarón Blanco Álvarez}
 \date{28/4/2021}
 
@@ -149,12 +149,6 @@ that, we can save the columns need it in two variables. In this case, NM
 and NPM. The meaning of this two variables are \emph{number of methods}
 and \emph{number of public methods}.
 
-As we can see, we can get private methods proportion if we make the
-operation of divide number of public methods between all methods, then,
-subtract to one. In theory, with each version, MHF is increasing, which
-means that will be less bugs and technical debt, nevertheless, is very
-small in this case.
-
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{luc49\_Class  }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"Excel/Lucene4.9.0/luc49{-}Class.csv"}\NormalTok{) }
@@ -198,14 +192,23 @@ small in this case.
 ## [1] 0.18451
 \end{verbatim}
 
+As we can see, we can get private methods proportion if we make the
+operation of divide number of public methods between all methods, then,
+subtract to one. In theory, with each version, MHF is increasing, which
+means that will be less bugs and technical debt, nevertheless, is very
+small in this case.
+
 \hypertarget{attribute-hiding-factor-ahf-}{%
 \subsection{(Attribute Hiding Factor
 --AHF-)}\label{attribute-hiding-factor-ahf-}}
 
 This is the proportion of hiding attributes. In this metric, we can make
 the same as before but in this case, changing the number of methods for
-attributes. So, we are working here with X43 (Number of attributes
-column) and NPA, public attributes. The formula is almost the same,
+attributes. So, we are working here with the number of attributes and
+NPA, public attributes. The formula is almost the same, but we are
+working with that two columns. Special mention that in this case, we
+have a problem with the column, so the only option was use the number of
+the column, in my case, 43.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -246,17 +249,25 @@ column) and NPA, public attributes. The formula is almost the same,
 ## [1] 0.5661031
 \end{verbatim}
 
+Ideally, all attributes should be hidden, nevertheless, 56\% it is a
+reasonable percentage. Anyways, we can see that in this case, there is a
+little decrease in the results between versions, but the idea would be
+increase the proportion of hidden attributes.
+
+\hypertarget{method-inheritance-factor-mif-}{%
+\subsection{(Method Inheritance Factor
+--MIF-)}\label{method-inheritance-factor-mif-}}
+
+Inheritance factor means the proportion of inherits methods. So, we can
+calculate it subtracting the total number of methods with local public
+methods. After that, we have to divide it from the total number of
+methods.
+
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\#Proporción de métodos heredados}
-\CommentTok{\#(Method Inheritance Factor –MIF{-})}
-
-\CommentTok{\#Leemos el dataset  }
 \NormalTok{NM }\OtherTok{\textless{}{-}}\NormalTok{ luc49\_Class[[}\StringTok{"NM"}\NormalTok{]];}
 \NormalTok{NLM }\OtherTok{\textless{}{-}}\NormalTok{ luc49\_Class[[}\StringTok{"NLM"}\NormalTok{]];}
-\CommentTok{\#Calculamos el número de métodos heredados restando el número total de métodos al número de métodos publicos locales.}
 \NormalTok{HEREADOS }\OtherTok{\textless{}{-}}\NormalTok{ (NM }\SpecialCharTok{{-}}\NormalTok{ NLM);}
-\CommentTok{\#La proporción la hacemos mediante heredados dividos entre numero de métodos totales.}
 \NormalTok{MIF }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(HEREADOS)}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(NM));}
 \FunctionTok{print}\NormalTok{(MIF);}
 \end{Highlighting}
@@ -294,29 +305,35 @@ column) and NPA, public attributes. The formula is almost the same,
 ## [1] 0.8453527
 \end{verbatim}
 
+In this case, we have a high percentage. This range should not be low
+but also, not very high, this indicates either superfluous inheritance
+or too wide member scopes. In this example, the proportion is
+increasing, nevertheless, there is not a major change.
+
+\hypertarget{attribute-inheritance-factor-aif-}{%
+\subsection{(Attribute Inheritance Factor
+--AIF-)}\label{attribute-inheritance-factor-aif-}}
+
+This metric is similar to MIF but in this case, we are talking about the
+attributes.
+
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\#Proporción de atributos heredados.}
-\CommentTok{\#(Attribute Inheritance Factor –AIF{-})}
-
-\CommentTok{\#Leemos el dataset  }
-\NormalTok{NAtt }\OtherTok{\textless{}{-}}\NormalTok{ luc49\_Class[[}\StringTok{"X43"}\NormalTok{]];}
+\NormalTok{NAtt }\OtherTok{\textless{}{-}}\NormalTok{ luc49\_Class[, }\DecValTok{43}\NormalTok{];}
 \NormalTok{NLA }\OtherTok{\textless{}{-}}\NormalTok{ luc49\_Class[[}\StringTok{"NLA"}\NormalTok{]];}
-\CommentTok{\#Calculamos el número de atributos heredados restando el número total de atributos al número de atributos publicos locales.}
 \NormalTok{HEREADOS }\OtherTok{\textless{}{-}}\NormalTok{ (NAtt }\SpecialCharTok{{-}}\NormalTok{ NLA);}
-\CommentTok{\#La proporción la hacemos mediante heredados dividos entre numero de atributos totales.}
 \NormalTok{MIF }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(HEREADOS)}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(NAtt));}
 \FunctionTok{print}\NormalTok{(MIF);}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] NaN
+## [1] 0.8042234
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{NAtt }\OtherTok{\textless{}{-}}\NormalTok{ luc491\_Class[[}\StringTok{"X43"}\NormalTok{]];}
+\NormalTok{NAtt }\OtherTok{\textless{}{-}}\NormalTok{ luc491\_Class[, }\DecValTok{43}\NormalTok{];}
 \NormalTok{NLA }\OtherTok{\textless{}{-}}\NormalTok{ luc491\_Class[[}\StringTok{"NLA"}\NormalTok{]];}
 \NormalTok{HEREADOS }\OtherTok{\textless{}{-}}\NormalTok{ (NAtt }\SpecialCharTok{{-}}\NormalTok{ NLA);}
 \NormalTok{MIF4.}\FloatTok{9.1} \OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(HEREADOS)}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(NAtt));}
@@ -325,12 +342,12 @@ column) and NPA, public attributes. The formula is almost the same,
 \end{Shaded}
 
 \begin{verbatim}
-## [1] NaN
+## [1] 0.8042521
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{NAtt }\OtherTok{\textless{}{-}}\NormalTok{ luc41\_Class[[}\StringTok{"X43"}\NormalTok{]];}
+\NormalTok{NAtt }\OtherTok{\textless{}{-}}\NormalTok{ luc41\_Class[, }\DecValTok{43}\NormalTok{];}
 \NormalTok{NLA }\OtherTok{\textless{}{-}}\NormalTok{ luc41\_Class[[}\StringTok{"NLA"}\NormalTok{]];}
 \NormalTok{HEREADOS }\OtherTok{\textless{}{-}}\NormalTok{ (NAtt }\SpecialCharTok{{-}}\NormalTok{ NLA);}
 \NormalTok{MIF4}\FloatTok{.1} \OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(HEREADOS)}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(NAtt));}
@@ -339,23 +356,38 @@ column) and NPA, public attributes. The formula is almost the same,
 \end{Shaded}
 
 \begin{verbatim}
-## [1] NaN
+## [1] 0.8026854
 \end{verbatim}
+
+The results indicate that we may have a high rate of inherits
+attributes. As in MIF metrics, both should be lower, this could be done
+with the use of Interfaces instead of Inherits.
+
+\hypertarget{polymorphism-factor-pf}{%
+\subsection{Polymorphism Factor (PF)}\label{polymorphism-factor-pf}}
+
+This metric was impossible to get since we have not got the number of
+overrides methods.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\#Proporción de polimorfismo.}
-\CommentTok{\#Polymorphism Factor (PF)}
+\CommentTok{\#The formula should be something like:}
+\CommentTok{\# PF = overrides / sum for each class(new methods * descendants)}
 \end{Highlighting}
 \end{Shaded}
 
+\hypertarget{coupling-factor-cf-}{%
+\subsection{(Coupling Factor --CF-)}\label{coupling-factor-cf-}}
+
+This metric indicates the coupling factor, which measures couplings
+among classes. In other words, the communication between classes. This
+formula use the column CBO, which means the total number of classes that
+use other classes, furthermore, we have to use NOA, the number of
+ancestors. To make the metric work, we need the number of total classes
+too. We have that number getting any column and measure it with length.
+
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\#Proporción de acoplamiento.}
-\CommentTok{\#(Coupling Factor –CF{-})}
-
-
-\CommentTok{\# Acomplamiento y numero de ancestros}
 \NormalTok{CBO }\OtherTok{\textless{}{-}}\NormalTok{ luc49\_Class[[}\StringTok{"CBO"}\NormalTok{]];}
 \NormalTok{NOA }\OtherTok{\textless{}{-}}\NormalTok{ luc49\_Class[[}\StringTok{"NOA"}\NormalTok{]];}
 \NormalTok{numeroClases }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(luc49\_Class[[}\StringTok{"ID"}\NormalTok{]]);}
@@ -399,13 +431,72 @@ column) and NPA, public attributes. The formula is almost the same,
 ## [1] 0.1914854
 \end{verbatim}
 
+As we can see, we have also no big differences, nevertheless, we can see
+how the coupling factor is decreasing with every version.
+
+\hypertarget{personal-metrics.}{%
+\subsection{Personal metrics.}\label{personal-metrics.}}
+
+\hypertarget{proportion-number-of-methods-for-total-lines-of-code.}{%
+\section{Proportion Number of Methods for total lines of
+code.}\label{proportion-number-of-methods-for-total-lines-of-code.}}
+
+We can create a new metric using the proportion of number of methods
+divide by lines of code. This could leads us to measure the complexity.
+
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\#Metricas personales.}
-
-\CommentTok{\#}
+\NormalTok{LOC }\OtherTok{\textless{}{-}}\NormalTok{ luc49\_Class[[}\StringTok{"LOC"}\NormalTok{]];}
+\NormalTok{NM }\OtherTok{\textless{}{-}}\NormalTok{ luc49\_Class[[}\StringTok{"NM"}\NormalTok{]];}
+\NormalTok{Total }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(LOC))}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(NM);}
+\FunctionTok{print}\NormalTok{(Total);}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+## [1] 3.043147
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{LOC }\OtherTok{\textless{}{-}}\NormalTok{ luc491\_Class[[}\StringTok{"LOC"}\NormalTok{]];}
+\NormalTok{NM }\OtherTok{\textless{}{-}}\NormalTok{ luc491\_Class[[}\StringTok{"NM"}\NormalTok{]];}
+\NormalTok{Total }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(LOC))}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(NM);}
+\FunctionTok{print}\NormalTok{(Total);}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3.015236
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{LOC }\OtherTok{\textless{}{-}}\NormalTok{ luc41\_Class[[}\StringTok{"LOC"}\NormalTok{]];}
+\NormalTok{NM }\OtherTok{\textless{}{-}}\NormalTok{ luc41\_Class[[}\StringTok{"NM"}\NormalTok{]];}
+\NormalTok{Total }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(LOC))}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(NM);}
+\FunctionTok{print}\NormalTok{(Total);}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.986877
+\end{verbatim}
+
+In this case, the proportion is low, so we could think that in this
+case, there is not a large complexity, nevertheless, this may not be the
+best metric calculate the complexity.
+
+\hypertarget{conclusions}{%
+\section{Conclusions}\label{conclusions}}
+
+To sum-up, we have observe the difference with every version, it is
+seems clearly, that the previous version was better in most of the
+cases, meaning that with the new releases, a few things could change,
+leaving the code with less quality, nevertheless, this differences are
+also minimal. Some of the indicators, show us the necessity of do
+refactoring in the code, which can be a complex task in a big project
+like Lucene, although, some things like the number of inherit attributes
+should change in the future.
 
 \end{document}
