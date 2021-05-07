@@ -110,6 +110,16 @@
 \begin{document}
 \maketitle
 
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{figure}
+\centering
+\includegraphics{ual.jpg}
+\caption{Logo de la UAL}
+\end{figure}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
@@ -127,11 +137,16 @@ itself. Also, the data in csv from the execution of Sourcemeter.
 Furthermore, we will install some packages to load csv among others.
 Here is an example:
 
-\begin{figure}
-\centering
-\includegraphics{EXCEL.png}
-\caption{package instalation}
-\end{figure}
+\includegraphics{EXCEL.png} \# Read xls
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(readxl)}
+\NormalTok{luc49\_Class }\OtherTok{\textless{}{-}} \FunctionTok{read\_excel}\NormalTok{(}\StringTok{"Excel/Lucene4.9.0/luc49{-}Class.xlsx"}\NormalTok{)}
+\NormalTok{luc491\_Class }\OtherTok{\textless{}{-}} \FunctionTok{read\_excel}\NormalTok{(}\StringTok{"Excel/Lucene4.9.1/luc491{-}Class.xlsx"}\NormalTok{)}
+\NormalTok{luc410\_Class }\OtherTok{\textless{}{-}} \FunctionTok{read\_excel}\NormalTok{(}\StringTok{"Excel/Lucene4.10/luc410{-}Class.xlsx"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{system-metrics}{%
 \section{System Metrics}\label{system-metrics}}
@@ -151,10 +166,6 @@ and \emph{number of public methods}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{luc49\_Class  }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"Excel/Lucene4.9.0/luc49{-}Class.csv"}\NormalTok{) }
-\NormalTok{luc491\_Class  }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"Excel/Lucene4.9.1/luc491{-}Class.csv"}\NormalTok{) }
-\NormalTok{luc41\_Class  }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"Excel/Lucene4.10/luc410{-}Class.csv"}\NormalTok{) }
-
 \NormalTok{NM }\OtherTok{\textless{}{-}}\NormalTok{ luc49\_Class[[}\StringTok{"NM"}\NormalTok{]];}
 \NormalTok{NPM }\OtherTok{\textless{}{-}}\NormalTok{ luc49\_Class[[}\StringTok{"NPM"}\NormalTok{]];}
 \NormalTok{Privado4}\FloatTok{.9} \OtherTok{\textless{}{-}}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{(}\FunctionTok{sum}\NormalTok{(NPM)}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(NM)));}
@@ -181,8 +192,8 @@ and \emph{number of public methods}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{NM }\OtherTok{\textless{}{-}}\NormalTok{ luc41\_Class[[}\StringTok{"NM"}\NormalTok{]];}
-\NormalTok{NPM }\OtherTok{\textless{}{-}}\NormalTok{ luc41\_Class[[}\StringTok{"NPM"}\NormalTok{]];}
+\NormalTok{NM }\OtherTok{\textless{}{-}}\NormalTok{ luc410\_Class[[}\StringTok{"NM"}\NormalTok{]];}
+\NormalTok{NPM }\OtherTok{\textless{}{-}}\NormalTok{ luc410\_Class[[}\StringTok{"NPM"}\NormalTok{]];}
 \NormalTok{Privado4}\FloatTok{.1} \OtherTok{\textless{}{-}}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{(}\FunctionTok{sum}\NormalTok{(NPM)}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(NM)));}
 \FunctionTok{print}\NormalTok{(Privado4}\FloatTok{.1}\NormalTok{);}
 \end{Highlighting}
@@ -206,13 +217,11 @@ This is the proportion of hiding attributes. In this metric, we can make
 the same as before but in this case, changing the number of methods for
 attributes. So, we are working here with the number of attributes and
 NPA, public attributes. The formula is almost the same, but we are
-working with that two columns. Special mention that in this case, we
-have a problem with the column, so the only option was use the number of
-the column, in my case, 43.
+working with that two columns.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{NAtt }\OtherTok{\textless{}{-}}\NormalTok{ luc49\_Class[, }\DecValTok{43}\NormalTok{];}
+\NormalTok{NAtt }\OtherTok{\textless{}{-}}\NormalTok{ luc49\_Class[[}\StringTok{"NAtt"}\NormalTok{]];}
 \NormalTok{NPA }\OtherTok{\textless{}{-}}\NormalTok{ luc49\_Class[[}\StringTok{"NPA"}\NormalTok{]];}
 \NormalTok{APrivado }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{{-}}\NormalTok{(}\FunctionTok{sum}\NormalTok{(NPA)}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(NAtt));}
 \FunctionTok{print}\NormalTok{(APrivado);}
@@ -225,10 +234,10 @@ the column, in my case, 43.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{NAtt }\OtherTok{\textless{}{-}}\NormalTok{ luc491\_Class[, }\DecValTok{43}\NormalTok{];}
+\NormalTok{NAtt }\OtherTok{\textless{}{-}}\NormalTok{ luc491\_Class[[}\StringTok{"NAtt"}\NormalTok{]];}
 \NormalTok{NPA }\OtherTok{\textless{}{-}}\NormalTok{ luc491\_Class[[}\StringTok{"NPA"}\NormalTok{]];}
-\NormalTok{APrivado4.}\FloatTok{9.1} \OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{{-}}\NormalTok{(}\FunctionTok{sum}\NormalTok{(NPA)}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(NAtt));}
-\FunctionTok{print}\NormalTok{(APrivado4.}\FloatTok{9.1}\NormalTok{);}
+\NormalTok{APrivado4\_9 }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{{-}}\NormalTok{(}\FunctionTok{sum}\NormalTok{(NPA)}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(NAtt));}
+\FunctionTok{print}\NormalTok{(APrivado4\_9);}
 \end{Highlighting}
 \end{Shaded}
 
@@ -238,8 +247,8 @@ the column, in my case, 43.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{NAtt }\OtherTok{\textless{}{-}}\NormalTok{ luc41\_Class[, }\DecValTok{43}\NormalTok{];}
-\NormalTok{NPA }\OtherTok{\textless{}{-}}\NormalTok{ luc41\_Class[[}\StringTok{"NPA"}\NormalTok{]];}
+\NormalTok{NAtt }\OtherTok{\textless{}{-}}\NormalTok{ luc410\_Class[[}\StringTok{"NAtt"}\NormalTok{]];}
+\NormalTok{NPA }\OtherTok{\textless{}{-}}\NormalTok{ luc410\_Class[[}\StringTok{"NPA"}\NormalTok{]];}
 \NormalTok{APrivado4\_1 }\OtherTok{\textless{}{-}}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{(}\FunctionTok{sum}\NormalTok{(NPA)}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(NAtt)));}
 \FunctionTok{print}\NormalTok{(APrivado4\_1);}
 \end{Highlighting}
@@ -293,8 +302,8 @@ methods.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{NM }\OtherTok{\textless{}{-}}\NormalTok{ luc41\_Class[[}\StringTok{"NM"}\NormalTok{]];}
-\NormalTok{NLM }\OtherTok{\textless{}{-}}\NormalTok{ luc41\_Class[[}\StringTok{"NLM"}\NormalTok{]];}
+\NormalTok{NM }\OtherTok{\textless{}{-}}\NormalTok{ luc410\_Class[[}\StringTok{"NM"}\NormalTok{]];}
+\NormalTok{NLM }\OtherTok{\textless{}{-}}\NormalTok{ luc410\_Class[[}\StringTok{"NLM"}\NormalTok{]];}
 \NormalTok{HEREADOS }\OtherTok{\textless{}{-}}\NormalTok{ (NM }\SpecialCharTok{{-}}\NormalTok{ NLM);}
 \NormalTok{MIF4}\FloatTok{.1} \OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(HEREADOS)}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(NM));}
 \FunctionTok{print}\NormalTok{(MIF4}\FloatTok{.1}\NormalTok{);}
@@ -319,7 +328,7 @@ attributes.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{NAtt }\OtherTok{\textless{}{-}}\NormalTok{ luc49\_Class[, }\DecValTok{43}\NormalTok{];}
+\NormalTok{NAtt }\OtherTok{\textless{}{-}}\NormalTok{ luc49\_Class[[}\StringTok{"NAtt"}\NormalTok{]];}
 \NormalTok{NLA }\OtherTok{\textless{}{-}}\NormalTok{ luc49\_Class[[}\StringTok{"NLA"}\NormalTok{]];}
 \NormalTok{HEREADOS }\OtherTok{\textless{}{-}}\NormalTok{ (NAtt }\SpecialCharTok{{-}}\NormalTok{ NLA);}
 \NormalTok{MIF }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(HEREADOS)}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(NAtt));}
@@ -333,7 +342,7 @@ attributes.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{NAtt }\OtherTok{\textless{}{-}}\NormalTok{ luc491\_Class[, }\DecValTok{43}\NormalTok{];}
+\NormalTok{NAtt }\OtherTok{\textless{}{-}}\NormalTok{ luc491\_Class[[}\StringTok{"NAtt"}\NormalTok{]];}
 \NormalTok{NLA }\OtherTok{\textless{}{-}}\NormalTok{ luc491\_Class[[}\StringTok{"NLA"}\NormalTok{]];}
 \NormalTok{HEREADOS }\OtherTok{\textless{}{-}}\NormalTok{ (NAtt }\SpecialCharTok{{-}}\NormalTok{ NLA);}
 \NormalTok{MIF4.}\FloatTok{9.1} \OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(HEREADOS)}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(NAtt));}
@@ -347,8 +356,8 @@ attributes.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{NAtt }\OtherTok{\textless{}{-}}\NormalTok{ luc41\_Class[, }\DecValTok{43}\NormalTok{];}
-\NormalTok{NLA }\OtherTok{\textless{}{-}}\NormalTok{ luc41\_Class[[}\StringTok{"NLA"}\NormalTok{]];}
+\NormalTok{NAtt }\OtherTok{\textless{}{-}}\NormalTok{ luc410\_Class[[}\StringTok{"NAtt"}\NormalTok{]];}
+\NormalTok{NLA }\OtherTok{\textless{}{-}}\NormalTok{ luc410\_Class[[}\StringTok{"NLA"}\NormalTok{]];}
 \NormalTok{HEREADOS }\OtherTok{\textless{}{-}}\NormalTok{ (NAtt }\SpecialCharTok{{-}}\NormalTok{ NLA);}
 \NormalTok{MIF4}\FloatTok{.1} \OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(HEREADOS)}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(NAtt));}
 \FunctionTok{print}\NormalTok{(MIF4}\FloatTok{.1}\NormalTok{);}
@@ -418,9 +427,9 @@ too. We have that number getting any column and measure it with length.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{CBO }\OtherTok{\textless{}{-}}\NormalTok{ luc41\_Class[[}\StringTok{"CBO"}\NormalTok{]];}
-\NormalTok{NOA }\OtherTok{\textless{}{-}}\NormalTok{ luc41\_Class[[}\StringTok{"NOA"}\NormalTok{]];}
-\NormalTok{numeroClases }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(luc41\_Class[[}\StringTok{"ID"}\NormalTok{]]);}
+\NormalTok{CBO }\OtherTok{\textless{}{-}}\NormalTok{ luc410\_Class[[}\StringTok{"CBO"}\NormalTok{]];}
+\NormalTok{NOA }\OtherTok{\textless{}{-}}\NormalTok{ luc410\_Class[[}\StringTok{"NOA"}\NormalTok{]];}
+\NormalTok{numeroClases }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(luc410\_Class[[}\StringTok{"ID"}\NormalTok{]]);}
 \NormalTok{NumR }\OtherTok{\textless{}{-}}\NormalTok{ CBO}\SpecialCharTok{{-}}\NormalTok{NOA;}
 \NormalTok{CF }\OtherTok{\textless{}{-}}\NormalTok{ (numeroClases }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(NumR);}
 \FunctionTok{print}\NormalTok{(CF);}
@@ -437,19 +446,19 @@ how the coupling factor is decreasing with every version.
 \hypertarget{personal-metrics.}{%
 \subsection{Personal metrics.}\label{personal-metrics.}}
 
-\hypertarget{proportion-number-of-methods-for-total-lines-of-code.}{%
-\section{Proportion Number of Methods for total lines of
-code.}\label{proportion-number-of-methods-for-total-lines-of-code.}}
+\hypertarget{proportion-number-of-methods-for-total-lines-of-code-nmtlc.}{%
+\section{Proportion Number of Methods for total lines of code
+(NMTLC).}\label{proportion-number-of-methods-for-total-lines-of-code-nmtlc.}}
 
 We can create a new metric using the proportion of number of methods
 divide by lines of code. This could leads us to measure the complexity.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{LOC }\OtherTok{\textless{}{-}}\NormalTok{ luc49\_Class[[}\StringTok{"LOC"}\NormalTok{]];}
-\NormalTok{NM }\OtherTok{\textless{}{-}}\NormalTok{ luc49\_Class[[}\StringTok{"NM"}\NormalTok{]];}
-\NormalTok{Total }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(LOC))}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(NM);}
-\FunctionTok{print}\NormalTok{(Total);}
+\NormalTok{LOC1 }\OtherTok{\textless{}{-}}\NormalTok{ luc49\_Class[[}\StringTok{"LOC"}\NormalTok{]];}
+\NormalTok{NM1 }\OtherTok{\textless{}{-}}\NormalTok{ luc49\_Class[[}\StringTok{"NM"}\NormalTok{]];}
+\NormalTok{Total1 }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(LOC1))}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(NM1);}
+\FunctionTok{print}\NormalTok{(Total1);}
 \end{Highlighting}
 \end{Shaded}
 
@@ -459,10 +468,10 @@ divide by lines of code. This could leads us to measure the complexity.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{LOC }\OtherTok{\textless{}{-}}\NormalTok{ luc491\_Class[[}\StringTok{"LOC"}\NormalTok{]];}
-\NormalTok{NM }\OtherTok{\textless{}{-}}\NormalTok{ luc491\_Class[[}\StringTok{"NM"}\NormalTok{]];}
-\NormalTok{Total }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(LOC))}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(NM);}
-\FunctionTok{print}\NormalTok{(Total);}
+\NormalTok{LOC2 }\OtherTok{\textless{}{-}}\NormalTok{ luc491\_Class[[}\StringTok{"LOC"}\NormalTok{]];}
+\NormalTok{NM2 }\OtherTok{\textless{}{-}}\NormalTok{ luc491\_Class[[}\StringTok{"NM"}\NormalTok{]];}
+\NormalTok{Total2 }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(LOC2))}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(NM2);}
+\FunctionTok{print}\NormalTok{(Total2);}
 \end{Highlighting}
 \end{Shaded}
 
@@ -472,10 +481,10 @@ divide by lines of code. This could leads us to measure the complexity.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{LOC }\OtherTok{\textless{}{-}}\NormalTok{ luc41\_Class[[}\StringTok{"LOC"}\NormalTok{]];}
-\NormalTok{NM }\OtherTok{\textless{}{-}}\NormalTok{ luc41\_Class[[}\StringTok{"NM"}\NormalTok{]];}
-\NormalTok{Total }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(LOC))}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(NM);}
-\FunctionTok{print}\NormalTok{(Total);}
+\NormalTok{LOC3 }\OtherTok{\textless{}{-}}\NormalTok{ luc410\_Class[[}\StringTok{"LOC"}\NormalTok{]];}
+\NormalTok{NM3 }\OtherTok{\textless{}{-}}\NormalTok{ luc410\_Class[[}\StringTok{"NM"}\NormalTok{]];}
+\NormalTok{Total3 }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(LOC3))}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(NM3);}
+\FunctionTok{print}\NormalTok{(Total3);}
 \end{Highlighting}
 \end{Shaded}
 
@@ -483,9 +492,247 @@ divide by lines of code. This could leads us to measure the complexity.
 ## [1] 2.986877
 \end{verbatim}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{media }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(Total1, Total2, Total3)}
+
+\NormalTok{barMedia }\OtherTok{\textless{}{-}} \FunctionTok{barplot}\NormalTok{(media, }\AttributeTok{names =} \FunctionTok{c}\NormalTok{(}\StringTok{"version 4.9"}\NormalTok{, }\StringTok{"version 4.9.1"}\NormalTok{, }\StringTok{"version4.10"}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\FloatTok{3.5}\NormalTok{), }\AttributeTok{xlab =} \StringTok{"Versiones"}\NormalTok{, }\AttributeTok{main =} \StringTok{"NMTLC"}\NormalTok{, }\AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{7}\NormalTok{,}\DecValTok{3}\NormalTok{))}
+\FunctionTok{text}\NormalTok{(barMedia, media }\SpecialCharTok{{-}}\FloatTok{2.5}\NormalTok{, }\FunctionTok{paste}\NormalTok{(}\StringTok{"NMTLC= "}\NormalTok{, }\FunctionTok{format}\NormalTok{(}\FunctionTok{round}\NormalTok{(media, }\DecValTok{3}\NormalTok{), }\AttributeTok{nsmall =} \DecValTok{3}\NormalTok{), }\AttributeTok{sep=}\StringTok{""}\NormalTok{), }\AttributeTok{cex=}\DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{report_files/figure-latex/unnamed-chunk-8-1.pdf}
+
 In this case, the proportion is low, so we could think that in this
 case, there is not a large complexity, nevertheless, this may not be the
-best metric calculate the complexity.
+best metric calculate the complexity, although is clearly that with
+every version, the complexity is lower.
+
+With this metric we can think that in some cases like more than 4,5
+lines of code per method means that we will have high complexity. let us
+review that.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{filter}\NormalTok{(LOC1[}\DecValTok{2}\NormalTok{]}\SpecialCharTok{/}\NormalTok{NM1[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{\textgreater{}=} \DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{ );}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Time Series:
+## Start = 1 
+## End = 1 
+## Frequency = 1 
+## [1] 5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(LOC1[}\DecValTok{2}\NormalTok{]);}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 9
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(NM1[}\DecValTok{2}\NormalTok{]);}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(LOC1[}\DecValTok{2}\NormalTok{]}\SpecialCharTok{/}\NormalTok{NM1[}\DecValTok{2}\NormalTok{]);}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 4.5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{filter}\NormalTok{(LOC1[}\DecValTok{6}\NormalTok{]}\SpecialCharTok{/}\NormalTok{NM1[}\DecValTok{6}\NormalTok{] }\SpecialCharTok{\textless{}=} \DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{ );}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Time Series:
+## Start = 1 
+## End = 1 
+## Frequency = 1 
+## [1] 5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(LOC1[}\DecValTok{6}\NormalTok{]);}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 53
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(NM1[}\DecValTok{6}\NormalTok{]);}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 106
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(LOC1[}\DecValTok{6}\NormalTok{]}\SpecialCharTok{/}\NormalTok{NM1[}\DecValTok{6}\NormalTok{]);}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.5
+\end{verbatim}
+
+In the example above, we can see two cases, for example, in the first
+one, the proportion is low, this is because in the first row, we have
+many methods, in the second case, we don't have methods, so the
+proportion is lower than 4,5.
+
+\hypertarget{attribute-mean}{%
+\section{Attribute mean}\label{attribute-mean}}
+
+This metric provide us with information about our classes, more
+attributes could indicate low encapsulation, with leads us to a low
+quality code. For example, if you are defining a class Person, and this
+one have attribute like name, surname, email, street, city, number, etc,
+one attribute like address could encapsulate all in other class instead
+of have every attribute in class Person.
+
+So, in this case, we have a way of check this.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+ \FunctionTok{library}\NormalTok{(dplyr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'dplyr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ luc49\_Class }\OtherTok{\textless{}{-}} \FunctionTok{filter}\NormalTok{(luc49\_Class, NAtt }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{)}
+\NormalTok{ NAtt1NotEmpty }\OtherTok{\textless{}{-}}\NormalTok{ luc49\_Class[[}\StringTok{"NAtt"}\NormalTok{]];}
+\NormalTok{ MediaNatt1 }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(NAtt1NotEmpty)}
+
+ \FunctionTok{print}\NormalTok{(MediaNatt1);}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 15.26778
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ luc491\_Class }\OtherTok{\textless{}{-}} \FunctionTok{filter}\NormalTok{(luc491\_Class, NAtt }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{)}
+\NormalTok{ NAtt2NotEmpty }\OtherTok{\textless{}{-}}\NormalTok{ luc491\_Class[[}\StringTok{"NAtt"}\NormalTok{]];}
+\NormalTok{ MediaNatt2 }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(NAtt2NotEmpty)}
+
+ \FunctionTok{print}\NormalTok{(MediaNatt2);}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 15.2671
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ luc410\_Class }\OtherTok{\textless{}{-}} \FunctionTok{filter}\NormalTok{(luc410\_Class, NAtt }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{)}
+\NormalTok{ NAtt3NotEmpty }\OtherTok{\textless{}{-}}\NormalTok{ luc410\_Class[[}\StringTok{"NAtt"}\NormalTok{]];}
+\NormalTok{ MediaNatt3 }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(NAtt3NotEmpty)}
+ \FunctionTok{print}\NormalTok{(MediaNatt3);}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 15.35326
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+ \FunctionTok{boxplot}\NormalTok{(NAtt1NotEmpty,}
+        \AttributeTok{main =} \StringTok{"Número de atributos"}\NormalTok{,}
+        \AttributeTok{ylab =} \StringTok{"Atributos"}\NormalTok{,}
+        \AttributeTok{col =} \StringTok{"red"}\NormalTok{,}
+        \AttributeTok{border =} \StringTok{"purple"}\NormalTok{,}
+        \AttributeTok{names =} \FunctionTok{c}\NormalTok{(}\StringTok{"Version 9.0"}\NormalTok{)}
+        
+\NormalTok{        )}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{report_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \FunctionTok{boxplot}\NormalTok{(NAtt2NotEmpty,}
+        \AttributeTok{main =} \StringTok{"Número de atributos"}\NormalTok{,}
+        \AttributeTok{ylab =} \StringTok{"Atributos"}\NormalTok{,}
+        \AttributeTok{col =} \StringTok{"green"}\NormalTok{,}
+        \AttributeTok{border =} \StringTok{"orange"}\NormalTok{,}
+        \AttributeTok{names =} \FunctionTok{c}\NormalTok{(}\StringTok{"Version 9.1"}\NormalTok{)}
+        
+\NormalTok{        )}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{report_files/figure-latex/unnamed-chunk-10-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+ \FunctionTok{boxplot}\NormalTok{(NAtt3NotEmpty,}
+        \AttributeTok{main =} \StringTok{"Número de atributos"}\NormalTok{,}
+        \AttributeTok{ylab =} \StringTok{"Atributos"}\NormalTok{,}
+        \AttributeTok{col =} \StringTok{"blue"}\NormalTok{,}
+        \AttributeTok{border =} \StringTok{"black"}\NormalTok{,}
+        \AttributeTok{names =} \FunctionTok{c}\NormalTok{(}\StringTok{"Version 9.10"}\NormalTok{)}
+        
+\NormalTok{        )}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{report_files/figure-latex/unnamed-chunk-10-3.pdf}
+
+What we have done it is a way of exclude classes with zero attribute and
+then, calculate the mean. This provide us a way of take into account if
+we are watching a complex class that may be encapsulate better. For
+example, now that we know that the mean is of 15, we can see in the
+graphs that some classes have up to 120, so, verify that should be
+urgent. If we can verify classes, we only need to use a filter now that
+we know the average.
 
 \hypertarget{conclusions}{%
 \section{Conclusions}\label{conclusions}}

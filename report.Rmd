@@ -3,13 +3,31 @@ title: "Code Metrics for the full system in R"
 author: "Aarón Blanco Álvarez"
 date: "28/4/2021"
 output: 
+  html_document:
+    toc: true
+    theme: united
   pdf_document: 
     keep_tex: yes
 ---
-
+<style>
+body {
+text-align: justify
+}
+</style>
+-----------------------------------
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+ ![Logo de la UAL](ual.jpg)
+
+
+
+
+
+
+----------------------------------------------
+
 
 # Introduction
 
@@ -23,20 +41,29 @@ Furthermore, we will install some packages to load csv among others.
 Here is an example:
 
 ![package instalation](EXCEL.png)
+# Read xls
+
+```{r}
+library(readxl)
+luc49_Class <- read_excel("Excel/Lucene4.9.0/luc49-Class.xlsx")
+luc491_Class <- read_excel("Excel/Lucene4.9.1/luc491-Class.xlsx")
+luc410_Class <- read_excel("Excel/Lucene4.10/luc410-Class.xlsx")
+
+```
+
+
 
 # System Metrics
 Let us start with the main metrics, after import the excel, we will use R to read the excels.
+
 
 ## (Method Hiding Factor –MHF-)
 
 This is the proportion of hiding methods. Firstly, we have to read the excels, we can do that with the __read.csv__ instruction, after that, we can save the columns need it in two variables. In this case, NM and NPM. The meaning of this two variables are _number of methods_ and _number of public methods_.
 
 
-```{r}
-luc49_Class  <- read.csv("Excel/Lucene4.9.0/luc49-Class.csv") 
-luc491_Class  <- read.csv("Excel/Lucene4.9.1/luc491-Class.csv") 
-luc41_Class  <- read.csv("Excel/Lucene4.10/luc410-Class.csv") 
 
+```{r}
 NM <- luc49_Class[["NM"]];
 NPM <- luc49_Class[["NPM"]];
 Privado4.9 <- (1-(sum(NPM)/sum(NM)));
@@ -47,8 +74,8 @@ NPM <- luc491_Class[["NPM"]];
 Privado4.9.1 <- (1-(sum(NPM)/sum(NM)));
 print(Privado4.9.1);
 
-NM <- luc41_Class[["NM"]];
-NPM <- luc41_Class[["NPM"]];
+NM <- luc410_Class[["NM"]];
+NPM <- luc410_Class[["NPM"]];
 Privado4.1 <- (1-(sum(NPM)/sum(NM)));
 print(Privado4.1);
 ```
@@ -56,24 +83,25 @@ print(Privado4.1);
 As we can see, we can get private methods proportion if we make the operation of divide number of public methods between all methods, then, subtract to one. 
 In theory, with each version, MHF is increasing, which means that will be less bugs and technical debt, nevertheless, is very small in this case.
 
+
 ## (Attribute Hiding Factor –AHF-)
 
 This is the proportion of hiding attributes. In this metric, we can make the same as before but in this case, changing the number of methods for attributes.
-So, we are working here with the number of attributes and NPA, public attributes. The formula is almost the same, but we are working with that two columns. Special mention that in this case, we have a problem with the column, so the only option was use the number of the column, in my case, 43.
+So, we are working here with the number of attributes and NPA, public attributes. The formula is almost the same, but we are working with that two columns. 
 
 ```{r}
-NAtt <- luc49_Class[, 43];
+NAtt <- luc49_Class[["NAtt"]];
 NPA <- luc49_Class[["NPA"]];
 APrivado <- 1-(sum(NPA)/sum(NAtt));
 print(APrivado);
 
-NAtt <- luc491_Class[, 43];
+NAtt <- luc491_Class[["NAtt"]];
 NPA <- luc491_Class[["NPA"]];
-APrivado4.9.1 <- 1-(sum(NPA)/sum(NAtt));
-print(APrivado4.9.1);
+APrivado4_9 <- 1-(sum(NPA)/sum(NAtt));
+print(APrivado4_9);
 
-NAtt <- luc41_Class[, 43];
-NPA <- luc41_Class[["NPA"]];
+NAtt <- luc410_Class[["NAtt"]];
+NPA <- luc410_Class[["NPA"]];
 APrivado4_1 <- (1-(sum(NPA)/sum(NAtt)));
 print(APrivado4_1);
 ```
@@ -100,8 +128,8 @@ HEREADOS <- (NM - NLM);
 MIF4.9.1 <- (sum(HEREADOS)/sum(NM));
 print(MIF4.9.1);
 
-NM <- luc41_Class[["NM"]];
-NLM <- luc41_Class[["NLM"]];
+NM <- luc410_Class[["NM"]];
+NLM <- luc410_Class[["NLM"]];
 HEREADOS <- (NM - NLM);
 MIF4.1 <- (sum(HEREADOS)/sum(NM));
 print(MIF4.1);
@@ -114,20 +142,20 @@ In this case, we have a high percentage. This range should not be low but also, 
 This metric is similar to MIF but in this case, we are talking about the attributes. 
 
 ```{r}
-NAtt <- luc49_Class[, 43];
+NAtt <- luc49_Class[["NAtt"]];
 NLA <- luc49_Class[["NLA"]];
 HEREADOS <- (NAtt - NLA);
 MIF <- (sum(HEREADOS)/sum(NAtt));
 print(MIF);
 
-NAtt <- luc491_Class[, 43];
+NAtt <- luc491_Class[["NAtt"]];
 NLA <- luc491_Class[["NLA"]];
 HEREADOS <- (NAtt - NLA);
 MIF4.9.1 <- (sum(HEREADOS)/sum(NAtt));
 print(MIF4.9.1);
 
-NAtt <- luc41_Class[, 43];
-NLA <- luc41_Class[["NLA"]];
+NAtt <- luc410_Class[["NAtt"]];
+NLA <- luc410_Class[["NLA"]];
 HEREADOS <- (NAtt - NLA);
 MIF4.1 <- (sum(HEREADOS)/sum(NAtt));
 print(MIF4.1);
@@ -165,9 +193,9 @@ NumR <- CBO-NOA;
 CF <- (numeroClases - 1)/sum(NumR);
 print(CF);
 
-CBO <- luc41_Class[["CBO"]];
-NOA <- luc41_Class[["NOA"]];
-numeroClases <- length(luc41_Class[["ID"]]);
+CBO <- luc410_Class[["CBO"]];
+NOA <- luc410_Class[["NOA"]];
+numeroClases <- length(luc410_Class[["ID"]]);
 NumR <- CBO-NOA;
 CF <- (numeroClases - 1)/sum(NumR);
 print(CF);
@@ -177,27 +205,116 @@ As we can see, we have also no big differences, nevertheless, we can see how the
 
 ## Personal metrics.
 
-# Proportion Number of Methods for total lines of code.
+# Proportion Number of Methods for total lines of code (NMTLC).
 
 We can create a new metric using the proportion of number of methods divide by lines of code. This could leads us to measure the complexity.
 
 ```{r}
-LOC <- luc49_Class[["LOC"]];
-NM <- luc49_Class[["NM"]];
-Total <- (sum(LOC))/sum(NM);
-print(Total);
+LOC1 <- luc49_Class[["LOC"]];
+NM1 <- luc49_Class[["NM"]];
+Total1 <- (sum(LOC1))/sum(NM1);
+print(Total1);
 
-LOC <- luc491_Class[["LOC"]];
-NM <- luc491_Class[["NM"]];
-Total <- (sum(LOC))/sum(NM);
-print(Total);
+LOC2 <- luc491_Class[["LOC"]];
+NM2 <- luc491_Class[["NM"]];
+Total2 <- (sum(LOC2))/sum(NM2);
+print(Total2);
 
-LOC <- luc41_Class[["LOC"]];
-NM <- luc41_Class[["NM"]];
-Total <- (sum(LOC))/sum(NM);
-print(Total);
+LOC3 <- luc410_Class[["LOC"]];
+NM3 <- luc410_Class[["NM"]];
+Total3 <- (sum(LOC3))/sum(NM3);
+print(Total3);
+
+media <- c(Total1, Total2, Total3)
+
+barMedia <- barplot(media, names = c("version 4.9", "version 4.9.1", "version4.10"), ylim = c(0,3.5), xlab = "Versiones", main = "NMTLC", col = c(2,7,3))
+text(barMedia, media -2.5, paste("NMTLC= ", format(round(media, 3), nsmall = 3), sep=""), cex=0)
+
 ```
-In this case, the proportion is low, so we could think that in this case, there is not a large complexity, nevertheless, this may not be the best metric calculate the complexity, although is clearly that with every version, the complexity is lower.
+
+In this case, the proportion is low, so we could think that in this case, there is not a large complexity, nevertheless, this may not be the best metric 
+calculate the complexity, although is clearly that with every version, the complexity is lower.
+
+With this metric we can think that in some cases like more than 4,5 lines of code per method means that we will have high complexity.
+let us review that.
+
+```{r}
+
+
+filter(LOC1[2]/NM1[2] >= 4,5 );
+print(LOC1[2]);
+print(NM1[2]);
+print(LOC1[2]/NM1[2]);
+
+
+filter(LOC1[6]/NM1[6] <= 4,5 );
+print(LOC1[6]);
+print(NM1[6]);
+print(LOC1[6]/NM1[6]);
+
+```
+
+In the example above, we can see two cases, for example, in the first one, the proportion is low, this is because in the first row, we have many methods, in the second case, we don't have methods, so the proportion is lower than 4,5.
+
+# Attribute mean
+ 
+This metric provide us with information about our classes, more attributes could indicate low encapsulation, with leads us to a low quality code. For example, if you are defining a class Person, and this one have attribute like name, surname, email, street, city, number, etc, one attribute like address could encapsulate all in other class instead of have every attribute in class Person.
+
+So, in this case, we have a way of check this. 
+
+```{r}
+
+ 
+ library(dplyr)
+ luc49_Class <- filter(luc49_Class, NAtt > 0)
+ NAtt1NotEmpty <- luc49_Class[["NAtt"]];
+ MediaNatt1 <- mean(NAtt1NotEmpty)
+
+ print(MediaNatt1);
+
+ 
+ luc491_Class <- filter(luc491_Class, NAtt > 0)
+ NAtt2NotEmpty <- luc491_Class[["NAtt"]];
+ MediaNatt2 <- mean(NAtt2NotEmpty)
+
+ print(MediaNatt2);
+ 
+ luc410_Class <- filter(luc410_Class, NAtt > 0)
+ NAtt3NotEmpty <- luc410_Class[["NAtt"]];
+ MediaNatt3 <- mean(NAtt3NotEmpty)
+ print(MediaNatt3);
+ 
+
+ boxplot(NAtt1NotEmpty,
+        main = "Número de atributos",
+        ylab = "Atributos",
+        col = "red",
+        border = "purple",
+        names = c("Version 9.0")
+        
+        )
+ 
+  boxplot(NAtt2NotEmpty,
+        main = "Número de atributos",
+        ylab = "Atributos",
+        col = "green",
+        border = "orange",
+        names = c("Version 9.1")
+        
+        )
+ boxplot(NAtt3NotEmpty,
+        main = "Número de atributos",
+        ylab = "Atributos",
+        col = "blue",
+        border = "black",
+        names = c("Version 9.10")
+        
+        )
+ 
+```
+
+What we have done it is a way of exclude classes with zero attribute and then, calculate the mean. This provide us a way of take into account if we are watching a complex class that may be encapsulate better. For example, now that we know that the mean is of 15, we can see in the graphs that some classes have up to 120, so, verify that should be urgent. If we can verify classes, we only need to use a filter now that we know the average.
+
 
 # Conclusions
 
